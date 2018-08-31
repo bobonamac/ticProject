@@ -22,7 +22,7 @@ int main(void)
 	// function calls
 	playerOne = playerName();
 	playerTwo = playerName();
-	printf("%s gets x and %s gets o\n", playerOne, playerTwo);
+	printf("%s gets x and %s gets o - let's go!\n", playerOne, playerTwo);
 
 	// display board
 	move = promptMove(playerOne);
