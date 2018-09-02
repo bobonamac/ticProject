@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#define ASCII_0 48
+
 // prototypes
 char * playerName(void);
 void drawBoard(char *);
@@ -15,6 +17,7 @@ bool win(char *);
 int main(void)
 {
 	int move;
+	// starting piece
 	char turn = 'x';
 
 	char board[10] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
@@ -31,7 +34,7 @@ int main(void)
 		// moves
 		drawBoard(board);
 		move = promptMove(playerOne, board, turn);
-		// check for valid move - check for win
+		// changes next piece to x or o
 		turn = 'o';
 
 		drawBoard(board);
@@ -39,11 +42,10 @@ int main(void)
 		// check for valid move - check for win
 		turn = 'x';
 	}
-	while (win(board) == 1);
+	while (win(board) == false);
 
 	//sanity check
-	printf("move is %d\n", move);
-	printf("looks good\n");
+	printf("looks good :-)\n");
 
 	return 0;
 }
@@ -92,7 +94,7 @@ void drawBoard(char * board) {
 int checkMove (int move, char * board, char turn) {
 	
 	// checks new move - if not ok, returns 1. If ok, stores move and returns 0
-	if ((move + 48) == board[move - 1]) {
+	if ((move + ASCII_0) == board[move - 1]) {
 			board[move - 1] = turn;
 			return 0;
 	}
@@ -105,7 +107,42 @@ int checkMove (int move, char * board, char turn) {
 /************************************/
 
 bool win(char * board) {
-return true;
+
+	printf("Checking for win\n");
+
+	if (board[0] == board[1] == board[2]) {
+		printf("%c wins!!!\n", board[0]);
+		return true;
+	}
+	else if (board[3] == board[4] == board[5]) {
+		printf("%c wins!!!\n", board[3]);
+		return true;
+	}
+	else if (board[6] == board[7] == board[8]) {
+		printf("%c wins!!!\n", board[6]);
+		return true;
+	}
+	else if (board[0] == board[3] == board[6]) {
+		printf("%c wins!!!\n", board[0]);
+		return true;
+	}
+	else if (board[1] == board[4] == board[7]) {
+		printf("%c wins!!!\n", board[1]);
+		return true;
+	}
+	else if (board[2] == board[5] == board[8]) {
+		printf("%c wins!!!\n", board[2]);
+		return true;
+	}
+	else if (board[0] == board[4] == board[8]) {
+		printf("%c wins!!!\n", board[0]);
+		return true;
+	}
+	else if (board[2] == board[4] == board[6]) {
+		printf("%c wins!!!\n", board[2]);
+		return true;
+	}
+	else return false;
 }
 
 
