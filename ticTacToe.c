@@ -6,16 +6,15 @@
 
 // prototypes
 char * playerName(void);
-void drawBoard(char *, char *, char *);
+void drawBoard(char *);
 int promptMove(char *);
 
 int main(void)
 {
 	int move;
+	char whosNext = 'x';
 
-	char topRow[4] = {'1', '2', '3'};
-	char midRow[4] = {'4', '5', '6'};
-	char botRow[4] = {'7', '8', '9'};
+	char board[10] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 	char * playerOne;
 	char * playerTwo;
@@ -26,13 +25,15 @@ int main(void)
 	printf("\n%s gets x and %s gets o - let's go!!!\n", playerOne, playerTwo);
 	
 	// moves
-	drawBoard(topRow, midRow, botRow);
+	drawBoard(board);
 	move = promptMove(playerOne);
 	// check for valid move - check for win
-	drawBoard(topRow, midRow, botRow);
+	whosNext = 'y';
+
+	drawBoard(board);
 	move = promptMove(playerTwo);
 	// check for valid move - check for win
-	drawBoard(topRow, midRow, botRow);
+	whosNext = 'x';
 
 	//sanity check
 	printf("move is %d\n", move);
@@ -41,7 +42,7 @@ int main(void)
 	return 0;
 }
 
-/***************************************************************************80/
+/**************************************************************************80*/
 
 char * playerName(void) {
 	char * playerName = malloc(sizeof(char) * 25);
@@ -71,10 +72,10 @@ int promptMove(char * playerName) {
 
 /************************************/
 
-void drawBoard(char * topRow, char * midRow, char * botRow) {
-	printf("\n   %c %c %c\n", topRow[0], topRow[1], topRow[2]);
-	printf("   %c %c %c\n", midRow[0], midRow[1], midRow[2]);
-	printf("   %c %c %c\n\n", botRow[0], botRow[1], botRow[2]);
+void drawBoard(char * board) {
+	printf("\n   %c %c %c\n", board[0], board[1], board[2]);
+	printf("   %c %c %c\n", board[3], board[4], board[5]);
+	printf("   %c %c %c\n\n", board[6], board[7], board[8]);
 	return;
 }
 
