@@ -1,5 +1,6 @@
 /* a simple game of TicTacToe */
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -7,12 +8,14 @@
 // prototypes
 char * playerName(void);
 void drawBoard(char *);
-int promptMove(char *);
+int promptMove(char *, char *, char);
+int checkMove (int, char *, char);
+bool win(char *);
 
 int main(void)
 {
 	int move;
-	char whosNext = 'x';
+	char turn = 'x';
 
 	char board[10] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
@@ -24,16 +27,19 @@ int main(void)
 	playerTwo = playerName();
 	printf("\n%s gets x and %s gets o - let's go!!!\n", playerOne, playerTwo);
 	
-	// moves
-	drawBoard(board);
-	move = promptMove(playerOne);
-	// check for valid move - check for win
-	whosNext = 'y';
+	do {
+		// moves
+		drawBoard(board);
+		move = promptMove(playerOne, board, turn);
+		// check for valid move - check for win
+		turn = 'o';
 
-	drawBoard(board);
-	move = promptMove(playerTwo);
-	// check for valid move - check for win
-	whosNext = 'x';
+		drawBoard(board);
+		move = promptMove(playerTwo, board, turn);
+		// check for valid move - check for win
+		turn = 'x';
+	}
+	while (win(board) == 1);
 
 	//sanity check
 	printf("move is %d\n", move);
@@ -53,21 +59,23 @@ char * playerName(void) {
 
 /************************************/
 
-int promptMove(char * playerName) {
+int promptMove(char * playerName, char * board, char turn) {
 
-	int mTemp;
+	int move;
 	int scanVal;
 
 	do {
 		printf("%s - choose a square: ", playerName);
-		scanVal = scanf(" %d", &mTemp);
+		// scanVal consumes remaining characters preventing perpetual loop
+		// why return value of 0???
+		scanVal = scanf(" %d", &move);
 		if (scanVal == 0) {
 			scanf("%*s");
 		}
 	}
-	while (scanVal == 0 || (mTemp < 1) || (mTemp > 9));
+	while (scanVal == 0 || (move < 1) || (move > 9) || (checkMove(move, board, turn) == 1));
 
-	return mTemp;
+	return move;
 }
 
 /************************************/
@@ -79,7 +87,30 @@ void drawBoard(char * board) {
 	return;
 }
 
+/************************************/
+
+int checkMove (int move, char * board, char turn) {
+	
+	// checks new move - if not ok, returns 1. If ok, stores move and returns 0
+	if ((move + 48) == board[move - 1]) {
+			board[move - 1] = turn;
+			return 0;
+	}
+	else {
+		printf("That square is already taken\n");
+	}
+	return 1;
+}
+
+/************************************/
+
+bool win(char * board) {
+return true;
+}
+
+
  /*
+
 Sample display
  o o x
  4 x 6
