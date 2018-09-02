@@ -42,7 +42,7 @@ int main(void)
 		// check for valid move - check for win
 		turn = 'x';
 	}
-	while (win(board) == false);
+	while (1 == 1);
 
 	//sanity check
 	printf("looks good :-)\n");
@@ -86,6 +86,7 @@ void drawBoard(char * board) {
 	printf("\n   %c %c %c\n", board[0], board[1], board[2]);
 	printf("   %c %c %c\n", board[3], board[4], board[5]);
 	printf("   %c %c %c\n\n", board[6], board[7], board[8]);
+	win(board);
 	return;
 }
 
@@ -142,7 +143,10 @@ bool win(char * board) {
 		printf("%c wins!!!\n", board[2]);
 		return true;
 	}
-	else return false;
+	else {
+		printf("Sorry, no win.\n");
+		return false;
+	}	
 }
 
 
