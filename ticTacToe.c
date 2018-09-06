@@ -3,8 +3,6 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-
 
 #define ASCII_0 48
 
@@ -14,7 +12,6 @@ void drawBoard(char *);
 int promptMove(char *, char *, char);
 int checkMove (int, char *, char);
 int win(char *);
-void delay(int);
 
 int main(void)
 {
@@ -51,9 +48,7 @@ int main(void)
 	return 0;
 }
 
-/**************************************************************************80*/
-
-/**************************************************************************80*/
+/*****************************************************************************/
 
 // change to struct 
 // prompt for x or y
@@ -116,29 +111,6 @@ int checkMove (int move, char * board, char turn) {
 int win(char * board) {
 
 	printf("Checking for win");
-	
-    for (int i = 0; i < 10; i++) {
-        // delay of one second
-        sleep(1);
-        printf(" .");
-    }
-
-    for (int i = 0; i < 10; i++) {
-        // delay of one second
-        sleep(1);
-        printf(" .");
-    }
-
-    for (int i = 0; i < 10; i++) {
-        // delay of one second
-        sleep(1);
-        printf(" .");
-    }
-
-    for (int i = 0; i < 10; i++) {
-        // delay of one second
-        sleep(1);
-    }
 
 	if (board[0] == board[1] && board[1] == board[2]) {
 		printf(" - %c wins!!!\n", board[0]);
@@ -177,22 +149,3 @@ int win(char * board) {
 		return 0;
 	}	
 }
-
-/************************************/
-
-
-/*
-// time delay function
-void delay(int number_of_seconds)
-{
-    // Converting time into milli_seconds
-    int milli_seconds = 1000 * number_of_seconds;
- 
-    // Stroing start time
-    clock_t start_time = clock();
- 
-    // looping till required time is not acheived
-    while (clock() < start_time + milli_seconds)
-        ;
-}
-*/
