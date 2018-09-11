@@ -49,7 +49,6 @@ int main(void)
 }
 
 /*****************************************************************************/
-
 // change to struct 
 // prompt for x or y
 char * playerName(void) {
@@ -60,7 +59,7 @@ char * playerName(void) {
 }
 
 /************************************/
-// all set
+
 int promptMove(char * playerName, char * board, char turn) {
 
 	// stores the move
@@ -82,7 +81,7 @@ int promptMove(char * playerName, char * board, char turn) {
 }
 
 /************************************/
-// all set
+
 void drawBoard(char * board) {
 	printf("\n   %c %c %c\n", board[0], board[1], board[2]);
 	printf("   %c %c %c\n", board[3], board[4], board[5]);
@@ -92,7 +91,7 @@ void drawBoard(char * board) {
 }
 
 /************************************/
-// all set
+
 int checkMove (int move, char * board, char turn) {
 	
 	// checks new move - if not ok, returns 1. If ok, stores move and returns 0
@@ -107,7 +106,7 @@ int checkMove (int move, char * board, char turn) {
 }
 
 /************************************/
-// all set
+
 int win(char * board) {
 
 	printf("Checking for win");
