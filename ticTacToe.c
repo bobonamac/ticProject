@@ -1,5 +1,7 @@
 /* a simple game of TicTacToe */
 
+// addStruct branch
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
