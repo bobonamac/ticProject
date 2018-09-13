@@ -15,35 +15,45 @@ int promptMove(char *, char *, char);
 int checkMove (int, char *, char);
 int win(char *);
 
-int main(void)
-{
+// data type declaration
+struct game  {
 	int move;
-	// starting piece
-	char turn = 'x';
-
-	char board[10] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
-
+	char turn;
+	char board[10];
 	char * playerOne;
 	char * playerTwo;
+};
+
+int main(void)
+{
+	// structure variable declaration
+	struct game thisGame = malloc(sizeof(struct game));
+
+	// assign starting values
+ 	thisGame.turn = 'x';
+ 	thisGame.board[10] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 	// get names and announce x and o
-	playerOne = playerName();
-	playerTwo = playerName();
-	printf("\n%s gets x and %s gets o - let's go!!!\n", playerOne, playerTwo);
+	thisGame.playerOne = playerName();
+	thisGame.playerTwo = playerName();
+	printf("\n%s gets x and %s gets o - let's go!!!\n", 
+		thisGame.playerOne, thisGame.playerTwo);
 
 	do {
 		// moves
-		drawBoard(board);
-		move = promptMove(playerOne, board, turn);
-		if (win(board) == 1) break;
+		drawBoard(thisGame.board);
+		thisGame.move = promptMove(thisGame.playerOne,
+		 thisGame.board, thisGame.turn);
+		if (win(thisGame.board) == 1) break;
 		// changes next piece to x or o
-		turn = 'o';
+		thisGame.turn = 'o';
 
-		drawBoard(board);
-		move = promptMove(playerTwo, board, turn);
-		if (win(board) == 1) break;
+		drawBoard(thisGame.board);
+		thisGame.move = promptMove(thisGame.playerTwo, thisGame.board, 
+			thisGame.turn);
+		if (win(thisGame.board) == 1) break;
 		// check for valid move - check for win
-		turn = 'x';
+		thisGame.turn = 'x';
 	}
 	while (1 == 1);
 
@@ -77,7 +87,8 @@ int promptMove(char * playerName, char * board, char turn) {
 			scanf("%*s");
 		}
 	}
-	while (scanVal == 0 || (move < 1) || (move > 9) || (checkMove(move, board, turn) == 1));
+	while (scanVal == 0 || (move < 1) || (move > 9) || (checkMove(move, board,
+	 turn) == 1));
 
 	return move;
 }
