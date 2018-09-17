@@ -1,7 +1,5 @@
 /* a simple game of TicTacToe */
 
-// addStruct branch
-
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,7 +30,6 @@ int main(void)
 	// get names and announce x and o
 	thisGame.playerOne = playerName();
 	thisGame.playerTwo = playerName();
-
 	printf("\n%s gets x and %s gets o - let's go!!!\n", 
 			thisGame.playerOne, thisGame.playerTwo);
 
@@ -119,18 +116,16 @@ int win(char * board) {
 
 	printf("\nChecking for win");
 
-	int row, column;
-
-	for (row = 0; row < 3; row++) {
-		if (board[row * 3] == board[row * 3 + 1] &&
-		 board[row * 3] == board[row * 3 + 2]) {
+	for (int i = 0; i < 3; i++) {
+		if (board[i * 3] == board[i * 3 + 1] &&
+		 	board[i * 3] == board[i * 3 + 2]) {
 			printf(" - %c wins!!!\n", board[0]);
 			return 1;
-        }
+		}
 	}
-	for (column = 0; column < 3; column++) {
-		if (board[column * 3] == board[column * 3 + 3] && 
-		 board[column * 3 + 3] == board[column * 3 + 6]) {
+	for (int j = 0; j < 3; j++) {
+		if (board[j] == board[j + 3] && 
+		 	board[j + 3] == board[j + 6]) {
 			printf(" - %c wins!!!\n", board[0]);
 			return 1;
         }
@@ -147,7 +142,6 @@ int win(char * board) {
 	}
 	else {
 		printf(" - no win.\n");
-		printf("turn: %d\n", thisGame.turn);
 		return 0;
 	}	
 }
