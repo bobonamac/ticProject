@@ -8,61 +8,52 @@
 
 #define ASCII_0 48
 
-// prototypes
-char * playerName(void);
-void drawBoard(char *);
-int promptMove(char *, char *, char);
-int checkMove (int, char *, char);
-int win(char *);
-
-// data type declaration
+// data type declaration - didn't include board because of {} conflict
 struct game  {
-	int move;
-	char turn;
-	char board[10];
+	int turn;
 	char * playerOne;
 	char * playerTwo;
-};
+}thisGame;
+
+// prototypes
+char * playerName(void);
+void drawBoard(char * board);
+void promptMove(struct game thisGame, char * board);
+int checkMove (int move, char * board, char turn);
+int win(char * board);
 
 int main(void)
 {
-	// structure variable declaration
-	struct game thisGame = malloc(sizeof(struct game));
 
 	// assign starting values
- 	thisGame.turn = 'x';
- 	thisGame.board[10] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+ 	thisGame.turn = 0;
+ 	char board[9] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 	// get names and announce x and o
 	thisGame.playerOne = playerName();
 	thisGame.playerTwo = playerName();
+
 	printf("\n%s gets x and %s gets o - let's go!!!\n", 
-		thisGame.playerOne, thisGame.playerTwo);
+			thisGame.playerOne, thisGame.playerTwo);
 
 	do {
 		// moves
-		drawBoard(thisGame.board);
-		thisGame.move = promptMove(thisGame.playerOne,
-		 thisGame.board, thisGame.turn);
-		if (win(thisGame.board) == 1) break;
-		// changes next piece to x or o
-		thisGame.turn = 'o';
-
-		drawBoard(thisGame.board);
-		thisGame.move = promptMove(thisGame.playerTwo, thisGame.board, 
-			thisGame.turn);
-		if (win(thisGame.board) == 1) break;
-		// check for valid move - check for win
-		thisGame.turn = 'x';
+		drawBoard(board);
+		promptMove(thisGame, board);
+		thisGame.turn++;
 	}
-	while (1 == 1);
+	while (win(board) == 0);
+
+	drawBoard(board);
+
+	printf("Way to go, %s!!!\n\n",
+		    thisGame.turn % 2 == 1 ? thisGame.playerOne : thisGame.playerTwo);
 
 	return 0;
 }
 
 /*****************************************************************************/
-// change to struct 
-// prompt for x or y
+
 char * playerName(void) {
 	char * playerName = malloc(sizeof(char) * 25);
 	printf("Player name: "); 
@@ -72,7 +63,19 @@ char * playerName(void) {
 
 /************************************/
 
-int promptMove(char * playerName, char * board, char turn) {
+void drawBoard(char * board) {
+	printf("\n");
+	printf("   %c %c %c\n", board[0], board[1], board[2]);
+	printf("   %c %c %c\n", board[3], board[4], board[5]);
+	printf("   %c %c %c\n", board[6], board[7], board[8]);
+	printf("\n");
+
+	return;
+}
+
+/************************************/
+
+void promptMove(struct game thisGame, char * board) {
 
 	// stores the move
 	int move;
@@ -80,25 +83,17 @@ int promptMove(char * playerName, char * board, char turn) {
 	int scanVal;
 
 	do {
-		printf("%s - choose a square: ", playerName);
+		printf("%s - choose a square: ", 
+			thisGame.turn % 2 == 0 ? thisGame.playerOne : thisGame.playerTwo);
 		scanVal = scanf(" %d", &move);
 		// consumes remaining characters preventing perpetual loop
 		if (scanVal == 0) {
 			scanf("%*s");
 		}
 	}
+
 	while (scanVal == 0 || (move < 1) || (move > 9) || (checkMove(move, board,
-	 turn) == 1));
-
-	return move;
-}
-
-/************************************/
-
-void drawBoard(char * board) {
-	printf("\n   %c %c %c\n", board[0], board[1], board[2]);
-	printf("   %c %c %c\n", board[3], board[4], board[5]);
-	printf("   %c %c %c\n\n", board[6], board[7], board[8]);
+	 thisGame.turn) == 1));
 
 	return;
 }
@@ -109,7 +104,7 @@ int checkMove (int move, char * board, char turn) {
 	
 	// checks new move - if not ok, returns 1. If ok, stores move and returns 0
 	if ((move + ASCII_0) == board[move - 1]) {
-			board[move - 1] = turn;
+			board[move - 1] = (turn % 2 == 0 ? 'x' : 'o');
 			return 0;
 	}
 	else {
@@ -122,42 +117,37 @@ int checkMove (int move, char * board, char turn) {
 
 int win(char * board) {
 
-	printf("Checking for win");
+	printf("\nChecking for win");
 
-	if (board[0] == board[1] && board[1] == board[2]) {
+	int row, column;
+
+	for (row = 0; row < 3; row++) {
+		if (board[row * 3] == board[row * 3 + 1] &&
+		 board[row * 3] == board[row * 3 + 2]) {
+			printf(" - %c wins!!!\n", board[0]);
+			return 1;
+        }
+	}
+	for (column = 0; column < 3; column++) {
+		if (board[column * 3] == board[column * 3 + 3] && 
+		 board[column * 3 + 3] == board[column * 3 + 6]) {
+			printf(" - %c wins!!!\n", board[0]);
+			return 1;
+        }
+	}
+	// check for diaginal win
+	if (board[0] == board[4] && board[4] == board[8]) {
 		printf(" - %c wins!!!\n", board[0]);
 		return 1;
 	}
-	else if (board[3] == board[4] && board[4] == board[5]) {
-		printf(" - %c wins!!!\n", board[3]);
-		return 1;
-	}
-	else if (board[6] == board[7] && board[7] == board[8]) {
-		printf(" - %c wins!!!\n", board[6]);
-		return 1;
-	}
-	else if (board[0] == board[3] && board[3] == board[6]) {
-		printf(" - %c wins!!!\n", board[0]);
-		return 1;
-	}
-	else if (board[1] == board[4] && board[4] == board[7]) {
-		printf(" - %c wins!!!\n", board[1]);
-		return 1;
-	}
-	else if (board[2] == board[5] && board[5] == board[8]) {
-		printf(" - %c wins!!!\n", board[2]);
-		return 1;
-	}
-	else if (board[0] == board[4] && board[4] == board[8]) {
-		printf(" - %c wins!!!\n", board[0]);
-		return 1;
-	}
+	// check for diaginal win
 	else if (board[2] == board[4] && board[4] == board[6]) {
 		printf(" - %c wins!!!\n", board[2]);
 		return 1;
 	}
 	else {
 		printf(" - no win.\n");
+		printf("turn: %d\n", thisGame.turn);
 		return 0;
 	}	
 }
