@@ -17,19 +17,19 @@ struct game  {
 
 // prototypes
 char * playerName(void);
-void drawBoard(struct game thisGame);
-void promptMove(struct game thisGame);
-int checkMove (struct game thisGame);
-int win(struct game thisGame);
+void drawBoard(void);
+void promptMove(void);
+int checkMove (void);
+int win(void);
 
 int main(void)
 {
 	// assign starting values
- 	thisGame.turn = 2;
+ 	thisGame.turn = 1;
  	// fill board array with chars 1-9
  	for (int i = 0; i < 9; i++){
  		thisGame.board[i] = (char) i + ASCII_0 + 1;
- 	} // this didn't work: {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+ 	}
 
 	// get names and announce x and o
 	thisGame.playerOne = playerName();
@@ -39,16 +39,19 @@ int main(void)
 
 	do {
 		// moves
-		drawBoard(thisGame);
-		promptMove(thisGame);
+		drawBoard();
 		thisGame.turn++;
+		promptMove();
 	}
-	while (win(thisGame) == 0);
+	while (win() == 0);
 
-	drawBoard(thisGame);
+	drawBoard();
 
 	printf("Way to go, %s!!!\n\n",
-		    thisGame.turn % 2 == 1 ? thisGame.playerOne : thisGame.playerTwo);
+		    thisGame.turn % 2 == 0 ? thisGame.playerOne : thisGame.playerTwo);
+
+	free(thisGame.playerOne);
+	free(thisGame.playerTwo);
 
 	return 0;
 }
@@ -59,13 +62,13 @@ char * playerName(void) {
 	char * playerName = malloc(sizeof(char) * 25);
 	printf("Player name: "); 
 	scanf(" %s", playerName);
-	// 	scanf(" %s", thisGame.turn % 2 == 1 ? &thisGame.playerOne : &thisGame.playerTwo);
+
 	return playerName;
 }
 
 /************************************/
 
-void drawBoard(struct game thisGame) {
+void drawBoard(void) {
 	printf("\n");
 	printf("   %c %c %c\n", thisGame.board[0], thisGame.board[1], thisGame.board[2]);
 	printf("   %c %c %c\n", thisGame.board[3], thisGame.board[4], thisGame.board[5]);
@@ -77,7 +80,7 @@ void drawBoard(struct game thisGame) {
 
 /************************************/
 
-void promptMove(struct game thisGame) {
+void promptMove(void) {
 
 	// number of items scanned
 	int scanVal;
@@ -93,14 +96,14 @@ void promptMove(struct game thisGame) {
 	}
 
 	while (scanVal == 0 || (thisGame.move < 1) || (thisGame.move > 9) ||
-	      (checkMove(thisGame) == 1));
+	      (checkMove() == 1));
 
 	return;
 }
 
 /************************************/
 
-int checkMove (struct game thisGame) {
+int checkMove (void) {
 	
 	// checks new move - if not ok, returns 1. If ok, stores move and returns 0
 	if ((thisGame.move + ASCII_0) == thisGame.board[thisGame.move - 1]) {
@@ -118,11 +121,10 @@ int checkMove (struct game thisGame) {
 
 /************************************/
 
-int win(struct game thisGame) {
+int win(void) {
 
 	printf("\nChecking for win");
 
-	// couldn't figure out how to combine these two for loops
 	for (int i = 0; i < 3; i++) {
 		if (thisGame.board[i * 3] == thisGame.board[i * 3 + 1] &&
 		 	thisGame.board[i * 3] == thisGame.board[i * 3 + 2]) {
