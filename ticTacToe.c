@@ -1,7 +1,5 @@
 /* a simple game of TicTacToe */
 
-// master branch
-
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,13 +37,12 @@ int main(void)
 	printf("\n%s gets x and %s gets o - let's go!!!\n", 
 			thisGame.playerOne, thisGame.playerTwo);
 
-	do {
+	while (win() == 0) {
 		// moves
 		drawBoard();
 		thisGame.turn++;
 		promptMove();
 	}
-	while (win() == 0);
 
 	drawBoard();
 
@@ -130,29 +127,29 @@ int win(void) {
 	for (int i = 0; i < 3; i++) {
 		if (thisGame.board[i * 3] == thisGame.board[i * 3 + 1] &&
 		 	thisGame.board[i * 3] == thisGame.board[i * 3 + 2]) {
-			printf(" - %c wins!!!\n", thisGame.board[0]);
+			printf(" - %c wins!\n", thisGame.board[0]);
 			return 1;
 		}
 	}
 	for (int j = 0; j < 3; j++) {
 		if (thisGame.board[j] == thisGame.board[j + 3] && 
 		 	thisGame.board[j + 3] == thisGame.board[j + 6]) {
-			printf(" - %c wins!!!\n", thisGame.board[0]);
+			printf(" - %c wins!\n", thisGame.board[0]);
 			return 1;
         }
 	}
 	// check for diaginal win
 	if (thisGame.board[0] == thisGame.board[4] && thisGame.board[4] == thisGame.board[8]) {
-		printf(" - %c wins!!!\n", thisGame.board[0]);
+		printf(" - %c wins!\n", thisGame.board[0]);
 		return 1;
 	}
 	// check for diaginal win
 	else if (thisGame.board[2] == thisGame.board[4] && thisGame.board[4] == thisGame.board[6]) {
-		printf(" - %c wins!!!\n", thisGame.board[2]);
+		printf(" - %c wins!\n", thisGame.board[2]);
 		return 1;
 	}
 	else {
-		printf(" - no win.\n");
+		printf(" - no win\n");
 		return 0;
 	}	
 }
