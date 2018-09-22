@@ -145,6 +145,7 @@ int win(void) {
 		return 1;
 	}
 	else {
+		// prevents this message befor first move is made
 		if (thisGame.turn > 1) {
 			printf("\nChecking for win - no win\n");
 		}
