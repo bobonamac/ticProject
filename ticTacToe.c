@@ -46,8 +46,13 @@ int main(void)
 
 	drawBoard();
 
-	printf("Way to go, %s!!!\n\n",
+	if (win() == 2) {
+		printf("Play again soon!\n\n");
+	}
+	else {
+		printf("Way to go, %s!!!\n\n",
 		    thisGame.turn % 2 == 0 ? thisGame.playerOne : thisGame.playerTwo);
+	}
 
 	free(thisGame.playerOne);
 	free(thisGame.playerTwo);
@@ -119,7 +124,7 @@ int checkMove (void) {
 /************************************/
 
 int win(void) {
-
+	// check for horizontal win
 	for (int i = 0; i < 3; i++) {
 		if (thisGame.board[i * 3] == thisGame.board[i * 3 + 1] &&
 		 	thisGame.board[i * 3] == thisGame.board[i * 3 + 2]) {
@@ -127,6 +132,7 @@ int win(void) {
 			return 1;
 		}
 	}
+	// check for vertical win
 	for (int j = 0; j < 3; j++) {
 		if (thisGame.board[j] == thisGame.board[j + 3] && 
 		 	thisGame.board[j + 3] == thisGame.board[j + 6]) {
@@ -144,8 +150,13 @@ int win(void) {
 		printf("\nChecking for win - %c wins!\n", thisGame.board[2]);
 		return 1;
 	}
+	// check for no winner
+	else if (thisGame.turn == 10) {
+		printf("Checking for win - no winner.\n");
+		return 2;
+	}
 	else {
-		// prevents this message befor first move is made
+		// prevents this message before first move is made
 		if (thisGame.turn > 1) {
 			printf("\nChecking for win - no win\n");
 		}
