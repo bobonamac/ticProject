@@ -128,7 +128,7 @@ int win(void) {
 	for (int i = 0; i < 3; i++) {
 		if (thisGame.board[i * 3] == thisGame.board[i * 3 + 1] &&
 		 	thisGame.board[i * 3] == thisGame.board[i * 3 + 2]) {
-			printf("\nChecking for win - %c wins!\n", thisGame.board[0]);
+			printf("\nChecking for win - %c wins horizontally!\n", thisGame.board[i * 3]);
 			return 1;
 		}
 	}
@@ -136,13 +136,13 @@ int win(void) {
 	for (int j = 0; j < 3; j++) {
 		if (thisGame.board[j] == thisGame.board[j + 3] && 
 		 	thisGame.board[j + 3] == thisGame.board[j + 6]) {
-			printf("\nChecking for win - %c wins!\n", thisGame.board[0]);
+			printf("\nChecking for win - %c wins vertically!\n", thisGame.board[j]);
 			return 1;
         }
 	}
 	// check for diaginal win
 	if (thisGame.board[0] == thisGame.board[4] && thisGame.board[4] == thisGame.board[8]) {
-		printf("\nChecking for win - %c wins!\n", thisGame.board[0]);
+		printf("\nChecking for win - %c wins diagonally!\n", thisGame.board[0]);
 		return 1;
 	}
 	// check for diaginal win
