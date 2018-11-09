@@ -147,7 +147,7 @@ int win(void) {
 	}
 	// check for diaginal win
 	else if (thisGame.board[2] == thisGame.board[4] && thisGame.board[4] == thisGame.board[6]) {
-		printf("\nChecking for win - %c wins!\n", thisGame.board[2]);
+		printf("\nChecking for win - %c wins diagonally!\n", thisGame.board[2]);
 		return 1;
 	}
 	// check for no winner
